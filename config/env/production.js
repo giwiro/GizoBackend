@@ -12,6 +12,10 @@
 
 module.exports = {
 
+  mongoose: {
+    uri: process.env.MONGO_URI
+  }
+
   /***************************************************************************
    * Set the default database connection for models in the production        *
    * environment (see config/connections.js and config/models.js )           *
