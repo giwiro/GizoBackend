@@ -32,8 +32,12 @@ module.exports.routes = {
   *                                                                          *
   ***************************************************************************/
 
+  '/' : 'MainController.index',
+
   'post /login': 'UsuarioController.login',
-  'post /registro': 'UsuarioController.registro'
+  'post /registro': 'UsuarioController.registro',
+
+  'post /coleccion/add' : 'ColeccionController.add'
 
   /***************************************************************************
   *                                                                          *
