@@ -4,6 +4,23 @@
  * @description :: TODO: You might write a short summary of how this model works and what it represents here.
  * @docs        :: http://sailsjs.org/documentation/concepts/models-and-orm/models
  */
+var mongoose =  require('mongoose'),
+    Schema = mongoose.Schema;
+
+var PictogramaSchema = new Schema({
+    nombre: {
+        type: String,
+        required: true
+    },
+    fileName: {
+      type: String,
+      required: true
+    },
+    cloudPath: {
+      type: String,
+      required: true
+    }
+});
 
 module.exports = {
 
@@ -11,7 +28,8 @@ module.exports = {
         texto: {
             type: String,
             required: true
-        }
+        },
+        pictogramas: [PictogramaSchema]
     },
 
 

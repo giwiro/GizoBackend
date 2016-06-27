@@ -37,7 +37,9 @@ module.exports.routes = {
   'post /login': 'UsuarioController.login',
   'post /registro': 'UsuarioController.registro',
 
-  'post /coleccion/add' : 'ColeccionController.add'
+  'post /coleccion/add' : 'ColeccionController.add',
+
+  'post /pictograma/add' : 'PictogramaController.add'
 
   /***************************************************************************
   *                                                                          *

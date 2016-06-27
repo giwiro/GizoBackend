@@ -19,6 +19,9 @@
 
 module.exports.policies = {
 
+
+  '*' : 'hasHeader'
+
   /***************************************************************************
   *                                                                          *
   * Default policy for all controllers and actions (`true` allows public     *
