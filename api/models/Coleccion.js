@@ -19,6 +19,12 @@ var PictogramaSchema = new Schema({
     cloudPath: {
       type: String,
       required: true
+    },
+    soundFileName: {
+      type: String
+    },
+    soundCloudPath: {
+      type: String
     }
 });
 

@@ -8,11 +8,11 @@
 var multiparty = require('multiparty');
 var util = require('util');
 var path = require('path');
+var async = require('async');
 
 module.exports = {
 
 	add: function (req, res) {
-		sails.log.info("addPictograma");
 		var nombre = req.query.nombre;
 		var idColeccion = req.query.idColeccion;
 
@@ -34,12 +34,73 @@ module.exports = {
 
 				//console.log("found coleccion", coleccion);
 
-				console.log("path", path.join(sails.config.appPath, '/.tmp/uploads/' + idColeccion));
+				//console.log("path", path.join(sails.config.appPath, '/.tmp/uploads/' + idColeccion));
+				var tasks = [];
 
-				req.file('foto').upload({
+				tasks.push(function (callback) {
+					req.file('foto').upload({
+						dirname: path.join(sails.config.appPath, '/.tmp/uploads/' + idColeccion),
+						saveAs: function (file, cb) {
+							console.log("save as ", file.filename);
+							cb(null, file.filename);
+						}
+					}, callback);
+				});
+
+				tasks.push(function (callback) {
+					req.file('audio').upload({
+						dirname: path.join(sails.config.appPath, '/.tmp/uploads/' + idColeccion),
+						saveAs: function (file, cb) {
+							console.log("save as ", file.filename);
+							cb(null, file.filename);
+						}
+					}, callback);
+				});
+
+				async.parallel(tasks, function (err, results) {
+					console.log("err", err);
+					if (err) {
+						return res
+								.status(500)
+								.send("No se pudo subir el archivo")
+					}
+
+					var imagenFiles = results[0];
+					var audioFiles = results[1];
+
+
+					coleccion.pictogramas.push({
+						nombre: nombre,
+						fileName: imagenFiles[0].filename,
+						cloudPath: idColeccion + '/' + imagenFiles[0].filename,
+
+						soundFileName: audioFiles[0].filename,
+						soundCloudPath: idColeccion + '/' + audioFiles[0].filename,
+					});
+
+					var pictograma = coleccion.pictogramas[coleccion.pictogramas.length - 1];
+
+					coleccion.save(function (err) {
+						if (err) {
+							console.log("err", err);
+							return res
+									.status(500)
+									.send("No se pudo guardar el pictograma")
+						}
+
+						return res
+								.json(pictograma)
+					});
+
+
+					
+				})
+
+
+				/*req.file('foto').upload({
 					dirname: path.join(sails.config.appPath, '/.tmp/uploads/' + idColeccion),
 					saveAs: function (file, cb) {
-						console.log("save as ", file.filename);
+						//console.log("save as ", file.filename);
 						cb(null, file.filename);
 					}
 				}, function (err, files) {
@@ -72,7 +133,7 @@ module.exports = {
 						return res
 								.json(pictograma)
 					});
-				})
+				})*/
 
 			})
 

@@ -32,7 +32,7 @@ module.exports = {
 
 			user.comparePassword(password, function (err, isMatch){
 				if (isMatch) {
-					sails.log.debug("User logged", user);
+					//sails.log.debug("User logged", user);
 					return res.json(user);
 				}
 				return res
@@ -59,7 +59,7 @@ module.exports = {
 					.send(err);
 			}
 
-			sails.log.debug("User registered", user);
+			//sails.log.debug("User registered", user);
 			return res.json(user)
 
 		})

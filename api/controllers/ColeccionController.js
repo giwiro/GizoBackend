@@ -25,7 +25,7 @@ module.exports = {
 						.send("No autorizado")
 				}
 
-				sails.log.debug("Colecciones getAll", usuario.colecciones);
+				//sails.log.debug("Colecciones getAll", usuario.colecciones);
 				return res
 					.json(usuario.colecciones)
 			})
@@ -72,7 +72,7 @@ module.exports = {
 										.send("Error guardando al usuario")
 								}
 
-								sails.log.debug("Colecciones agregada", newColeccion);
+								//sails.log.debug("Colecciones agregada", newColeccion);
 								return res
 									.json(newColeccion)
 							})

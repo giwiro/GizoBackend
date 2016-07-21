@@ -30,23 +30,35 @@ module.exports.http = {
   *                                                                          *
   ***************************************************************************/
 
-    // order: [
-    //   'startRequestTimer',
-    //   'cookieParser',
-    //   'session',
-    //   'myRequestLogger',
-    //   'bodyParser',
-    //   'handleBodyParserError',
-    //   'compress',
-    //   'methodOverride',
-    //   'poweredBy',
-    //   '$custom',
-    //   'router',
-    //   'www',
-    //   'favicon',
-    //   '404',
-    //   '500'
-    // ],
+  order: [
+    //Mide el tiempo
+    'responseTimeLogger',
+
+
+    'startRequestTimer',
+    'cookieParser',
+    'session',
+    'myRequestLogger',
+    'bodyParser',
+    'handleBodyParserError',
+    'compress',
+    'methodOverride',
+    'poweredBy',
+    '$custom',
+    'router',
+    'www',
+    'favicon',
+    '404',
+    '500'
+  ],
+
+  // Using response-time middleware
+  responseTimeLogger: function(req, res, next) {
+    res.on("finish", function() {
+      sails.log.info("Requested :: ", req.method, req.url, res.get('X-Response-Time'));
+    });
+    require('response-time')()(req, res, next);
+  }
 
   /****************************************************************************
   *                                                                           *
